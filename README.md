@@ -1,5 +1,17 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+## Running instructions
+
+Install dependencies with `yarn install` and run with `yarn start`.
+
+The authentication service checks for a
+[digit-test-backend](https://github.com/dennybiasiolli/digit-test-backend)
+webserver listening on `http://localhost:4000/`.<br>
+This address can be changed in
+[store/authenticationReducer.js](src/store/authenticationReducer.js)
+in `BASE_API_URL` constant.
+
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -4,17 +4,29 @@ export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState: {
     isAuthenticated: false,
-    userData: {},
+    userToken: '',
+    userData: null,
   },
   reducers: {
     login: (state, action) => {
+      const { token } = action.payload;
       state.isAuthenticated = !!action.payload;
-      state.userData = action.payload || {};
+      state.userToken = token;
+    },
+
+    logout: state => {
+      state.isAuthenticated = false;
+      state.userToken = '';
+      state.userData = null;
+    },
+
+    setUserData: (state, action) => {
+      state.userData = action.payload;
     },
   },
 });
 
-export const { login } = authenticationSlice.actions;
+export const { login, logout, setUserData } = authenticationSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(loginAsync(10))`. This
@@ -34,9 +46,28 @@ export const loginAsync = (username, password) => async dispatch => {
   const userData = await response.json();
   if (response.ok) {
     dispatch(login(userData));
+    dispatch(getUserInfoAsync());
     return userData;
   } else {
-    dispatch(login(null));
+    dispatch(logout());
+    throw userData;
+  }
+};
+
+export const getUserInfoAsync = () => async (dispatch, getState) => {
+  const { userToken } = getState().authentication;
+  const response = await fetch('http://localhost:4000/users/me', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${userToken}`,
+    },
+  });
+  const userData = await response.json();
+  if (response.ok) {
+    dispatch(setUserData(userData));
+    return userData;
+  } else {
     throw userData;
   }
 };

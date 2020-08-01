@@ -17,6 +17,9 @@ export default function App() {
         <Router>
           <div>
             <Switch>
+              <Route path="/counter">
+                <Counter />
+              </Route>
               <Route path="/login">
                 <Login />
               </Route>

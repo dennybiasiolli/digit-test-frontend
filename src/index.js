@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Configuration } from "@react-md/layout";
 import './index.css';
 import App from './App';
-import store from './app/store';
+import store from './store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 

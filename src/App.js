@@ -4,7 +4,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-import { Counter } from './features/counter/Counter';
+import Home from './components/Home';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import './App.css';
@@ -21,7 +21,7 @@ export default function App() {
                 <Login />
               </Route>
               <PrivateRoute path="/">
-                <Counter />
+                <Home />
               </PrivateRoute>
             </Switch>
           </div>

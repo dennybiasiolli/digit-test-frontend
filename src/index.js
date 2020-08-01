@@ -1,15 +1,27 @@
+import './index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Configuration } from "@react-md/layout";
 import './index.css';
 import App from './App';
 import store from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
+
+// the ConfigurationProps are just all the props for the providers
+// joined together. The only difference is that onResize has been
+// renamed to onAppResize for the AppSizeListener
+const overrides = {
+  // your configuration overrides
+};
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Configuration {...overrides}>
+        <App />
+      </Configuration>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

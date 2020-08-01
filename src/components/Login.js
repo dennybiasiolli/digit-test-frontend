@@ -3,6 +3,14 @@ import {
   useHistory,
   useLocation
 } from 'react-router-dom';
+import {
+  Button,
+} from '@react-md/button';
+import {
+  Form,
+  TextField,
+  Password,
+} from '@react-md/form';
 import fakeAuth from '../utility/auth';
 
 
@@ -17,10 +25,20 @@ export default function LoginPage() {
     });
   };
 
+
   return (
-    <div>
-      <p>You must log in</p>
-      <button onClick={login}>Log in</button>
-    </div>
+    <Form>
+      <TextField
+        id="username-field"
+        label="Username"
+        placeholder="Username"
+      />
+      <Password
+        id="password-field"
+        label="Password"
+        placeholder="Super secret password"
+      />
+      <Button id="login-button" theme="clear" themeType="contained" onClick={login}>Login</Button>
+    </Form>
   );
 };

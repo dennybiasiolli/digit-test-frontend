@@ -1,30 +1,28 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   useHistory,
   useLocation
 } from 'react-router-dom';
-import {
-  Button,
-} from '@react-md/button';
+import { Button } from '@react-md/button';
 import {
   Form,
   TextField,
   Password,
 } from '@react-md/form';
-import fakeAuth from '../utility/auth';
+import { loginAsync } from '../store/authenticationReducer';
 
 
 export default function LoginPage() {
-  let history = useHistory();
-  let location = useLocation();
-
-  let { from } = location.state || { from: { pathname: '/' } };
-  let login = () => {
-    fakeAuth.authenticate(() => {
-      history.replace(from);
-    });
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { from } = location.state || { from: { pathname: '/' } };
+  const handleLogin = () => {
+    dispatch(loginAsync()).then(
+      isLogged => isLogged && history.replace(from)
+    );
   };
-
 
   return (
     <Form>
@@ -38,7 +36,12 @@ export default function LoginPage() {
         label="Password"
         placeholder="Super secret password"
       />
-      <Button id="login-button" theme="clear" themeType="contained" onClick={login}>Login</Button>
+      <Button
+        id="login-button"
+        theme="clear"
+        themeType="contained"
+        onClick={() => handleLogin()}
+      >Login</Button>
     </Form>
   );
 };

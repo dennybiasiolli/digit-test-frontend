@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
+import { Counter } from './features/counter/Counter';
 import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 

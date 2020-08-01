@@ -1,12 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const mockedUserData = {
-  id: 1,
-  username: 'admin',
-  firstName: 'Administrator',
-  lastName: 'Generic',
-};
-
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState: {
@@ -15,13 +8,9 @@ export const authenticationSlice = createSlice({
   },
   reducers: {
     login: (state, action) => {
-      state.isAuthenticated = true;
-      state.userData = action.payload;
+      state.isAuthenticated = !!action.payload;
+      state.userData = action.payload || {};
     },
-    logout: state => {
-      state.isAuthenticated = true;
-      state.userData = {};
-    }
   },
 });
 
@@ -31,13 +20,24 @@ export const { login } = authenticationSlice.actions;
 // can be dispatched like a regular action: `dispatch(loginAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const loginAsync = () => dispatch => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      dispatch(login(mockedUserData));
-      resolve(mockedUserData);
-    }, 1000);
+export const loginAsync = (username, password) => async dispatch => {
+  const response = await fetch('http://localhost:4000/users/authenticate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username,
+      password,
+    }),
   });
+  const userData = await response.json();
+  dispatch(login(userData));
+  if (response.ok) {
+    return userData;
+  } else {
+    throw userData;
+  }
 };
 
 // The function below is called a selector and allows us to select a value from

@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const BASE_API_URL = 'http://localhost:4000';
+
 export const authenticationSlice = createSlice({
   name: 'authentication',
   initialState: {
@@ -33,7 +35,7 @@ export const { login, logout, setUserData } = authenticationSlice.actions;
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
 export const loginAsync = (username, password) => async dispatch => {
-  const response = await fetch('http://localhost:4000/users/authenticate', {
+  const response = await fetch(`${BASE_API_URL}/users/authenticate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -56,7 +58,7 @@ export const loginAsync = (username, password) => async dispatch => {
 
 export const getUserInfoAsync = () => async (dispatch, getState) => {
   const { userToken } = getState().authentication;
-  const response = await fetch('http://localhost:4000/users/me', {
+  const response = await fetch(`${BASE_API_URL}/users/me`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

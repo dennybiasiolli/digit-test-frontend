@@ -32,10 +32,11 @@ export const loginAsync = (username, password) => async dispatch => {
     }),
   });
   const userData = await response.json();
-  dispatch(login(userData));
   if (response.ok) {
+    dispatch(login(userData));
     return userData;
   } else {
+    dispatch(login(null));
     throw userData;
   }
 };
